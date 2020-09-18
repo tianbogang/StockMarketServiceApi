@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockMarket.Core\StockMarket.Core.csproj" />
+    <ProjectReference Include="..\StockMarket.Data.Dapper\StockMarket.Data.Dapper.csproj" />
+    <ProjectReference Include="..\StockMarket.Data.Ef\StockMarket.Data.Ef.csproj" />
+    <ProjectReference Include="..\StockMarket.Data.MongoDB\StockMarket.Data.MongoDB.csproj" />
+  </ItemGroup>
+
+</Project>
