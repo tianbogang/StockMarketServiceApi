@@ -20,7 +20,7 @@ namespace StockMarket.Api.Hubs
             }
             else
             {
-                await Clients.All.SendAsync("ReceiveMessage");
+                await Clients.All.SendAsync("ReceivedMessage");
             }
         }
     }

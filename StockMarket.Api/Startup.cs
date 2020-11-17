@@ -38,17 +38,17 @@ namespace StockMarket.Api
 
             services.AddCors(options =>
             {
-                IConfigurationSection CorsUrlsSection = Configuration.GetSection("CorsUrls");
-                string[] CorsUrls = CorsUrlsSection.Get<string[]>();
+                IConfigurationSection CorsUrlsSection = Configuration.GetSection("CorsPorts");
+                string[] CorsPorts = CorsUrlsSection.Get<string[]>();
 
                 options.AddPolicy(name: "StockApiServerCors",
                     builder =>
                     {
                         builder
+                        .SetIsOriginAllowed(host => CorsPorts.Any(p => host.Contains(p)))
                         .AllowCredentials()
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithOrigins(CorsUrls);
+                        .AllowAnyMethod();
                     });
             });
 

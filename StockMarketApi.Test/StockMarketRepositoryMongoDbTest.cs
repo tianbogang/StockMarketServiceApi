@@ -121,7 +121,7 @@ namespace StockMarketApi.Test
 
             var repo = new StockRepository(context.Object, mapper);
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock("Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false);
             stockCollection.Setup(c => c.CountDocumentsAsync(
                 It.IsAny<FilterDefinition<StockDocument>>(),
                 It.IsAny<CountOptions>(),
@@ -131,7 +131,7 @@ namespace StockMarketApi.Test
             await repo.AddAsync(newStock);
             stockCollection.Verify(c => c.InsertOneAsync(It.IsAny<StockDocument>(), It.IsAny<InsertOneOptions>(), It.IsAny<CancellationToken>()), Times.Once());
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false };
+            Stock oldStock = new Stock("Tian Stock Company", "TSC", 84, 80, "NASDAQ", false);
             stockCollection.Setup(c => c.CountDocumentsAsync(
                 It.IsAny<FilterDefinition<StockDocument>>(),
                 It.IsAny<CountOptions>(),
@@ -160,7 +160,7 @@ namespace StockMarketApi.Test
 
             var repo = new StockRepository(context.Object, mapper);
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false };
+            Stock oldStock = new Stock("Tian Stock Company", "TSC", 84, 80, "NASDAQ", false);
             stockCollection.Setup(c => c.CountDocumentsAsync(
                 It.IsAny<FilterDefinition<StockDocument>>(),
                 It.IsAny<CountOptions>(),
@@ -175,7 +175,7 @@ namespace StockMarketApi.Test
                 It.IsAny<CancellationToken>()),
                 Times.Once());
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock("Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false);
             stockCollection.Setup(c => c.CountDocumentsAsync(
                 It.IsAny<FilterDefinition<StockDocument>>(),
                 It.IsAny<CountOptions>(),

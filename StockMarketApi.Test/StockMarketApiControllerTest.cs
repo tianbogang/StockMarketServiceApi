@@ -22,10 +22,10 @@ namespace StockMarketApi.Test
         {
             fakeStocks = new List<Stock>()
             {
-                new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false },
-                new Stock { Name = "Silly Stock Company", Code = "SSC", Price = 30, PreviousPrice = 32, Exchange = "NSE", Favorite = false },
-                new Stock { Name = "Lucky Stock Company", Code = "LSC", Price = 62, PreviousPrice = 61, Exchange = "NYSE", Favorite = false },
-                new Stock { Name = "Hunan Stock Company", Code = "HSC", Price = 105, PreviousPrice = 108, Exchange = "OTHER", Favorite = false }
+                new Stock( "Tian Stock Company", "TSC", 84, 80, "NASDAQ", false ),
+                new Stock( "Silly Stock Company", "SSC", 30, 32, "NSE", false ),
+                new Stock( "Lucky Stock Company", "LSC", 62, 61, "NYSE", false ),
+                new Stock( "Hunan Stock Company", "HSC", 105, 108, "OTHER", false )
             };
 
             var mock = new Mock<ILogger<StockController>>();
@@ -105,19 +105,19 @@ namespace StockMarketApi.Test
 
             var controller = new StockController(service.Object, logger);
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock( "Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false );
 
             var result = await controller.Post(newStock);
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false };
+            Stock oldStock = new Stock( "Tian Stock Company", "TSC", 84, 80, "NASDAQ", false );
 
             var result2 = await controller.Post(oldStock);
             Assert.NotNull(result2);
             Assert.IsType<ConflictObjectResult>(result2);
 
-            Stock badStock = new Stock { Name = "", Code = "", Price = 0, PreviousPrice = 0, Exchange = "", Favorite = false };
+            Stock badStock = new Stock( "", "", 0, 0, "", false );
 
             var result3 = await controller.Post(badStock);
             Assert.NotNull(result3);
@@ -136,19 +136,19 @@ namespace StockMarketApi.Test
 
             var controller = new StockController(service.Object, logger);
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false };
+            Stock oldStock = new Stock("Tian Stock Company", "TSC", 84, 80, "NASDAQ", false);
 
             var result = await controller.Put(oldStock);
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock("Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false);
 
             var result2 = await controller.Put(newStock);
             Assert.NotNull(result2);
             Assert.IsType<NotFoundObjectResult>(result2);
 
-            Stock badStock = new Stock { Name = "", Code = "", Price = 0, PreviousPrice = 0, Exchange = "", Favorite = false };
+            Stock badStock = new Stock("", "", 0, 0, "", false);
 
             var result3 = await controller.Put(badStock);
             Assert.NotNull(result3);
@@ -233,21 +233,21 @@ namespace StockMarketApi.Test
 
             var controller = new StockController(service.Object, logger);
 
-            StockDto stockDto = new StockDto { Code = "TSC", Price = 76 };
+            StockDto stockDto = new StockDto( "TSC", 76 );
 
             var result = await controller.Patch(stockDto);
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
-            stockDto.Code = "XXX";
+            StockDto stockDto2 = stockDto with { Code = "XXX" };
 
-            var result2 = await controller.Patch(stockDto);
+            var result2 = await controller.Patch(stockDto2);
             Assert.NotNull(result2);
             Assert.IsType<NotFoundObjectResult>(result2);
 
-            stockDto.Code = "";
+            StockDto stockDto3 = stockDto with { Code = "" };
 
-            var result3 = await controller.Patch(stockDto);
+            var result3 = await controller.Patch(stockDto3);
             Assert.NotNull(result3);
             Assert.IsType<BadRequestObjectResult>(result3);
         }

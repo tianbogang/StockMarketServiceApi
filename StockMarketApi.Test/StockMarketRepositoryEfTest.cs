@@ -20,10 +20,10 @@ namespace StockMarketApi.Test
         {
             fakeStocks = new List<Stock>()
             {
-                new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false },
-                new Stock { Name = "Silly Stock Company", Code = "SSC", Price = 30, PreviousPrice = 32, Exchange = "NSE", Favorite = false },
-                new Stock { Name = "Lucky Stock Company", Code = "LSC", Price = 62, PreviousPrice = 61, Exchange = "NYSE", Favorite = false },
-                new Stock { Name = "Hunan Stock Company", Code = "HSC", Price = 105, PreviousPrice = 108, Exchange = "OTHER", Favorite = false }
+                new Stock( "Tian Stock Company", "TSC", 84, 80, "NASDAQ", false ),
+                new Stock( "Silly Stock Company", "SSC", 30, 32, "NSE", false ),
+                new Stock( "Lucky Stock Company", "LSC", 62, 61, "NYSE", false ),
+                new Stock( "Hunan Stock Company", "HSC", 105, 108, "OTHER", false )
             }
             .AsQueryable();
 
@@ -93,13 +93,13 @@ namespace StockMarketApi.Test
 
             var repo = new StockRepository(dbContextMock.Object);
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock( "Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false );
 
             await repo.AddAsync(newStock);
             mockStocks.Verify(t => t.Add(It.IsAny<Stock>()), Times.Once());
             dbContextMock.Verify(d => d.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 84, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = false };
+            Stock oldStock = new Stock( "Tian Stock Company", "TSC", 84, 80, "NASDAQ", false );
 
             try
             {
@@ -123,13 +123,13 @@ namespace StockMarketApi.Test
 
             var repo = new StockRepository(dbContextMock.Object);
 
-            Stock oldStock = new Stock { Name = "Tian Stock Company", Code = "TSC", Price = 86, PreviousPrice = 80, Exchange = "NASDAQ", Favorite = true };
+            Stock oldStock = new Stock("Tian Stock Company", "TSC", 84, 80, "NASDAQ", false);
 
             await repo.UpdateAsync(oldStock);
             mockStocks.Verify(t => t.Attach(It.IsAny<Stock>()), Times.Once());
             dbContextMock.Verify(d => d.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
 
-            Stock newStock = new Stock { Name = "Zzz Stock Company", Code = "ZSC", Price = 86, PreviousPrice = 82, Exchange = "NASDAQ", Favorite = false };
+            Stock newStock = new Stock("Zzz Stock Company", "ZSC", 86, 82, "NASDAQ", false);
 
             try
             {

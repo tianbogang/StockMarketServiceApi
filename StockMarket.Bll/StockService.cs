@@ -50,10 +50,9 @@ namespace StockMarket.Bll
 
         public async Task PatchStockAsync(StockDto stockDto)
         {
-            Stock thisStock = await repository.GetOneAsync(stockDto.Code);  
-            thisStock.PreviousPrice = thisStock.Price;
-            thisStock.Price = stockDto.Price;
-            await repository.UpdateAsync(thisStock);
+            Stock thisStock = await repository.GetOneAsync(stockDto.Code);
+            Stock newStock = thisStock with { PreviousPrice = thisStock.Price, Price = stockDto.Price };
+            await repository.UpdateAsync(newStock);
         }
     }
 }
