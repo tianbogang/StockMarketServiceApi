@@ -1,5 +1,5 @@
 # StockMarketServiceApp
-Stock Service Web API implemented in Asp.Net Core 3
+Stock Service Web API implemented in Asp.Net Core / .Net 5
 
 <br >
 StockMarket.Core project: Interfaces, Model classes, shared among all other projects

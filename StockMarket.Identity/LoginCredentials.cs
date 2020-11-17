@@ -2,11 +2,8 @@
 
 namespace StockMarket.Identity
 {
-    public class LoginCredentials
-    {
-        [Required]
-        public string Username { get; set; }
-        [Required]
-        public string Password { get; set; }
-    }
+    public record LoginCredentials(
+        [Required] string Username,
+        [Required] string Password
+    );
 }
