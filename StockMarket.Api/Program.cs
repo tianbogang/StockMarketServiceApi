@@ -8,15 +8,11 @@ namespace StockMarket.Api
 {
     public class Program
     {
-        private static int servicePort;
-
         public static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-
-            servicePort = configuration.GetValue<int>("ServicePort", 5200);
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
@@ -25,19 +21,20 @@ namespace StockMarket.Api
             var contextLog = Log.ForContext("SourceContext", "Program");
             contextLog.Information($"======== Stock Marcket Api Server Starts on {DateTime.Now} ========");
 
-            CreateHostBuilder(args)
-                .Build()
-                .Run();
-        }
+            int servicePort = configuration.GetValue<int>("ServicePort", 5200);
+            string urls = $"http://*:{servicePort - 1};https://*:{servicePort}";
+            contextLog.Information($"======== Listening on {urls} ========");
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                    .UseUrls($"http://*:{servicePort - 1};https://*:{servicePort}")
+                    .UseUrls(urls)
                     .UseSerilog()
                     .UseStartup<Startup>();
-                });
+                })
+                .Build()
+                .Run();
+        }
     }
 }
